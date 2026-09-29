@@ -1,4 +1,7 @@
-import { defaultArticleState } from '@/constants/articleProps.ts';
+import { defaultArticleState } from '@/constants/articleProps.ts'; ////а надо ли взять еще и новый???
+
+import type {ArticleStateType} from "../../constants/articleProps"
+
 import { clsx } from 'clsx';
 
 import { ArticleParamsForm } from '@components/article-params-form';
@@ -9,22 +12,27 @@ import type { CSSProperties } from 'react';
 
 import styles from './app.module.scss';
 
+import { useState } from 'react';
+
 export const App = (): React.JSX.Element => {
-  return (
+
+const [articleState, setArticleState] = useState<ArticleStateType>(defaultArticleState)
+
+return (
     <main
       className={clsx(styles.main)}
       style={
         {
-          '--font-family': defaultArticleState.fontFamilyOption.value,
-          '--font-size': defaultArticleState.fontSizeOption.value,
-          '--font-color': defaultArticleState.fontColor.value,
-          '--container-width': defaultArticleState.contentWidth.value,
-          '--bg-color': defaultArticleState.backgroundColor.value,
+          '--font-family': articleState.fontFamilyOption.value,
+          '--font-size': articleState.fontSizeOption.value,
+          '--font-color': articleState.fontColor.value,
+          '--container-width': articleState.contentWidth.value,
+          '--bg-color': articleState.backgroundColor.value,
         } as CSSProperties
       }
     >
-      <ArticleParamsForm />
+      <ArticleParamsForm onAction={setArticleState}/> 
       <Article />
     </main>
-  );
+);
 };
